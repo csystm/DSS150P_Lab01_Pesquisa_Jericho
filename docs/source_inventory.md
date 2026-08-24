@@ -60,7 +60,7 @@
 | Potential schema-evolution risk | API version changes, field additions/removals |
 | Potential data-quality risk | Network failures, rate limiting, missing data, malformed response |
 
-**Retrieved API snapshot timestamp (UTC):** `2026-08-24T11:14:28.649020+00:00`
+**Retrieved API snapshot timestamp (UTC):** `2026-08-24T13:39:34.610465+00:00`
 
 ## 5. PostgreSQL Source
 
