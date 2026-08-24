@@ -1,0 +1,25 @@
+Tables:
+('public', 'support_tickets')
+
+Columns of support_tickets:
+('ticket_id', 'integer', 'NO')
+('customer_id', 'character varying', 'NO')
+('category', 'character varying', 'NO')
+('priority', 'character varying', 'NO')
+('assigned_agent', 'character varying', 'YES')
+('opened_at', 'timestamp without time zone', 'NO')
+('resolved_at', 'timestamp without time zone', 'YES')
+('status', 'character varying', 'NO')
+
+Constraints:
+('support_tickets_pkey', 'p', 'PRIMARY KEY (ticket_id)')
+
+Row count:
+250
+
+Sample rows:
+(1, 'C0246', 'Technical', 'High', 'J. Reyes', datetime.datetime(2026, 6, 19, 4, 0), datetime.datetime(2026, 6, 21, 13, 0), 'Resolved')
+(2, 'C0130', 'Product', 'Medium', 'J. Reyes', datetime.datetime(2026, 5, 26, 7, 0), datetime.datetime(2026, 5, 26, 23, 0), 'Closed')
+(3, 'C0094', 'Delivery', 'Medium', 'J. Reyes', datetime.datetime(2026, 3, 28, 9, 0), datetime.datetime(2026, 3, 31, 17, 0), 'Closed')
+(4, 'C0057', 'Technical', 'High', 'L. Tan', datetime.datetime(2026, 4, 25, 19, 0), None, 'In Progress')
+(5, 'C0120', 'Delivery', 'High', 'R. Cruz', datetime.datetime(2026, 1, 20, 2, 0), datetime.datetime(2026, 1, 22, 21, 0), 'Resolved')
