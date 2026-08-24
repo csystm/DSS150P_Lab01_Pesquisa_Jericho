@@ -1,0 +1,67 @@
+# Chosen source: orders.json
+# Reason: It has a clean unique primary key (order_id) and clear numeric/date fields which makes it suitable for a basic data contract.
+
+dataset_name: orders
+version: 1.0
+owner: unknown - requires confirmation
+source_type: file
+source_format: json
+acquisition_method: batch file download or local file read with pandas
+expected_update_pattern: unknown - likely batch full snapshot
+primary_key: order_id
+schema:
+  - name: order_id
+    type: string
+    nullable: false
+    description: Unique identifier for each order (e.g., O00001)
+  - name: customer_id
+    type: string
+    nullable: false
+    description: Identifier referencing the customer who placed the order
+  - name: order_timestamp
+    type: timestamp
+    nullable: false
+    description: Date and time when the order was placed (ISO-like string parsed to timestamp)
+  - name: status
+    type: string
+    nullable: false
+    description: Current order status; allowed values Packed, Delivered, Cancelled, Pending, Shipped, Paid
+  - name: item_count
+    type: integer
+    nullable: false
+    description: Number of items in the order; must be greater than 0
+  - name: subtotal
+    type: decimal(10,2)
+    nullable: false
+    description: Sum of item prices before shipping fee
+  - name: shipping_fee
+    type: decimal(10,2)
+    nullable: false
+    description: Shipping fee charged; can be 0 (e.g., Pickup)
+  - name: total_amount
+    type: decimal(10,2)
+    nullable: false
+    description: Final amount paid = subtotal + shipping_fee
+  - name: shipping_region
+    type: string
+    nullable: false
+    description: Region extracted from nested shipping object
+  - name: shipping_method
+    type: string
+    nullable: false
+    description: Shipping method extracted from nested shipping object (e.g., Standard, Pickup)
+
+quality_rules:
+  - order_id must not be null
+  - order_id must be unique
+  - item_count must be greater than or equal to 1
+  - total_amount must equal subtotal + shipping_fee (to be confirmed on full data)
+  - status must be one of Packed, Delivered, Cancelled, Pending, Shipped, Paid
+  - shipping_fee must be greater than or equal to 0
+  - total_amount must be greater than or equal to 0
+
+freshness_expectation: unknown - requires confirmation
+duplicate_policy: reject
+schema_evolution_policy: if new fields appear, pipeline should quarantine the record and notify source owner; if fields are removed, pipeline should fail clearly
+consumer: analytics team / downstream application
+notes: The nested shipping object has been flattened into shipping_region and shipping_method for relational storage. The relationship total_amount = subtotal + shipping_fee holds for all 250 records in the sample, but should be revalidated on future batches.
